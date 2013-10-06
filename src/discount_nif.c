@@ -19,21 +19,17 @@ static ERL_NIF_TERM to_markdown_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM
   }
 
   tmp_md_doc = mkd_string((const char*)md_input.data, md_input.size, MKD_TABSTOP|MKD_NOHEADER);
-
-  if (mkd_compile(tmp_md_doc, flags)) {
-    char  *result;
-    int   result_size = mkd_document(tmp_md_doc, &result);
-
-    enif_alloc_binary(result_size, &parsed);
-    memcpy(parsed.data, result, result_size);
-    mkd_cleanup(tmp_md_doc);
-
-  } else {
-    mkd_cleanup(tmp_md_doc);
-    return enif_make_badarg(env);
-  }
-
   enif_release_binary(&md_input);
+  mkd_compile(tmp_md_doc, flags);
+
+  char  *result;
+  int   result_size = mkd_document(tmp_md_doc, &result);
+  mkd_cleanup(tmp_md_doc);
+
+  enif_alloc_binary(result_size, &parsed);
+  memcpy(parsed.data, result, result_size);
+
+
   return enif_make_binary(env, &parsed);
 }
 
