@@ -15,9 +15,8 @@ git clone https://github.com/asaaki/discount.ex.git discount
 ## Build and test
 
 ```shell
-make distclean
-make
-make test
+mix compile
+mix test
 ```
 
 ```shell
