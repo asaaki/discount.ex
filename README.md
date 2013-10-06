@@ -14,13 +14,17 @@ git clone https://github.com/asaaki/discount.ex.git discount
 
 ## Build and test
 
+```shell
 make distclean
 make
 make test
-
-iex -pa ebin
-
 ```
+
+```shell
+iex -pa ebin
+```
+
+```elixir
 Discount.Discount.to_html "## markdown string"
 ```
 
