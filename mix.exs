@@ -2,7 +2,7 @@ defmodule Mix.Tasks.Compile.Discount do
   @shortdoc "Compiles discount library"
 
   def run(_) do
-    Mix.shell.info System.cmd("make")
+    Mix.shell.info System.cmd("make share/discount.so")
   end
 end
 
