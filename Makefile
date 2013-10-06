@@ -45,7 +45,7 @@ share/discount.so: discount_src/libmarkdown.so ${NIF_SRC}
 	mkdir -p share && \
 	$(CC) $(CFLAGS) $(ERLANG_FLAGS) -shared $(OPTIONS) -o $@ $(DISCOUNT_OBJS) $(NIF_SRC)
 
-discount_src/libmarkdown.so: discount_src
+discount_src/libmarkdown.so: discount_src/configure.sh
 	cd discount_src && \
 	CFLAGS="$(CFLAGS_DISCOUNT)" ./configure.sh \
 		--shared \
@@ -56,7 +56,7 @@ discount_src/libmarkdown.so: discount_src
 		--enable-all-features && \
 	CFLAGS="$(CFLAGS_DISCOUNT)" $(MAKE)
 
-discount_src:
+discount_src/configure.sh:
 	git submodule update --init
 
 discount_src-clean:
