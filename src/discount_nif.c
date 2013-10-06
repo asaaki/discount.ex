@@ -33,6 +33,7 @@ static ERL_NIF_TERM to_markdown_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     return enif_make_badarg(env);
   }
 
+  enif_release_binary(&md_input);
   return enif_make_binary(env, &parsed);
 }
 
