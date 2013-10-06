@@ -39,8 +39,10 @@ NIF_SRC=\
 
 all: discount
 
-discount: share/discount.so
-	mix compile
+discount: share/discount.so compile
+
+compile:
+	@mix compile
 
 share/discount.so: discount/libmarkdown.a ${NIF_SRC}
 	mkdir -p share && \
@@ -72,16 +74,19 @@ discount-clean:
 discount-distclean:
 	test ! -f discount/Makefile || \
 	  (cd discount && $(MAKE) distclean)
-	rm -f discount/blocktags librarian.sh mktags
+	rm -f discount/blocktags discount/librarian.sh discount/mktags
 
 discountex-clean:
 	rm -rf $(EBIN_DIR)
 	rm -rf test/tmp
 	rm -rf share
-	@ echo
+	@echo
 
 clean: discount-clean discountex-clean
 
 distclean: discount-distclean discountex-clean
 
-.PHONY: clean
+test:
+	@mix test
+
+.PHONY: all discount compile clean distclean test

@@ -16,7 +16,7 @@ git clone https://github.com/asaaki/discount.ex.git discount
 
 make distclean
 make
-mix test
+make test
 
 iex -pa ebin
 

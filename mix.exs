@@ -1,12 +1,8 @@
 defmodule Mix.Tasks.Compile.Discount do
   @shortdoc "Compiles discount library"
 
-  # COMPILE DISCOUNT
-  # ./configure.sh --enable-all-features --with-dl=Both --with-id-anchor --with-github-tags --with-fenced-code
-  # make
-
   def run(_) do
-    Mix.shell.info System.cmd("make discount")
+    Mix.shell.info System.cmd("make")
   end
 end
 
