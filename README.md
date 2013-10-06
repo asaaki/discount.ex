@@ -1,6 +1,6 @@
 # Discount.ex
 
-Elixir NIF of Discount, a Markdown parser/converter ((GH: Orc/discount)[https://github.com/Orc/discount]).
+Elixir NIF of Discount, a Markdown parser/converter ([GH: Orc/discount](https://github.com/Orc/discount)).
 
 
 
