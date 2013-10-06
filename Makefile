@@ -1,6 +1,6 @@
 ERLANG_PATH:=$(shell erl -eval 'io:format("~s~n", [lists:concat([code:root_dir(), "/erts-", erlang:system_info(version), "/include"])])' -s init stop -noshell)
 CFLAGS_DISCOUNT=-g -O3 -fPIC
-CFLAGS=$(CFLAGS_DISCOUNT) -Idiscount
+CFLAGS=$(CFLAGS_DISCOUNT) -Idiscount_src
 ERLANG_FLAGS=-I$(ERLANG_PATH)
 CC?=clang
 CXX?=clang++
@@ -11,82 +11,69 @@ ifeq ($(shell uname),Darwin)
 endif
 
 DISCOUNT_OBJS=\
-	discount/mkdio.o \
-	discount/markdown.o \
-	discount/dumptree.o \
-	discount/generate.o \
-	discount/resource.o \
-	discount/docheader.o \
-	discount/version.o \
-	discount/toc.o \
-	discount/css.o \
-	discount/xml.o \
-	discount/Csio.o \
-	discount/xmlpage.o \
-	discount/basename.o \
-	discount/emmatch.o \
-	discount/github_flavoured.o \
-	discount/setup.o \
-	discount/tags.o \
-	discount/html5.o \
-	discount/flags.o \
-	discount/amalloc.o
-	# discount/libmarkdown.a
+	discount_src/mkdio.o \
+	discount_src/markdown.o \
+	discount_src/dumptree.o \
+	discount_src/generate.o \
+	discount_src/resource.o \
+	discount_src/docheader.o \
+	discount_src/version.o \
+	discount_src/toc.o \
+	discount_src/css.o \
+	discount_src/xml.o \
+	discount_src/Csio.o \
+	discount_src/xmlpage.o \
+	discount_src/basename.o \
+	discount_src/emmatch.o \
+	discount_src/github_flavoured.o \
+	discount_src/setup.o \
+	discount_src/tags.o \
+	discount_src/html5.o \
+	discount_src/flags.o \
+	discount_src/amalloc.o
 
 NIF_SRC=\
 	src/discount_nif.c
 
 
-all: discount
+all: discount_ex
 
-discount: share/discount.so compile
+discount_ex:
+	mix compile
 
-compile:
-	@mix compile
-
-share/discount.so: discount/libmarkdown.a ${NIF_SRC}
+share/discount.so: discount_src/libmarkdown.so ${NIF_SRC}
 	mkdir -p share && \
 	$(CC) $(CFLAGS) $(ERLANG_FLAGS) -shared $(OPTIONS) -o $@ $(DISCOUNT_OBJS) $(NIF_SRC)
 
-discount/libmarkdown.a: discount-submodule discount-configure discount-build
-
-discount-submodule:
-	@echo Check and update submodule ...
-	git submodule update --init
-	@echo
-
-discount-configure:
-	@echo Configure discount ...
-	cd discount && \
+discount_src/libmarkdown.so: discount_src
+	cd discount_src && \
 	CFLAGS="$(CFLAGS_DISCOUNT)" ./configure.sh \
-		--with-dl=Both --with-id-anchor --with-github-tags --with-fenced-code --enable-all-features
-	@echo
+		--shared \
+		--with-dl=Both \
+		--with-id-anchor \
+		--with-github-tags \
+		--with-fenced-code \
+		--enable-all-features && \
+	CFLAGS="$(CFLAGS_DISCOUNT)" $(MAKE)
 
-discount-build:
-	@echo Build discount ...
-	cd discount && CFLAGS="$(CFLAGS_DISCOUNT)" $(MAKE)
-	@echo
+discount_src:
+	git submodule update --init
 
-discount-clean:
-	test ! -f discount/markdown.o || \
-	  (cd discount && $(MAKE) clean)
+discount_src-clean:
+	test ! -f discount_src/libmarkdown.so || \
+	  (cd discount_src && $(MAKE) clean)
 
-discount-distclean:
-	test ! -f discount/Makefile || \
-	  (cd discount && $(MAKE) distclean)
-	rm -f discount/blocktags discount/librarian.sh discount/mktags
+discount_src-distclean:
+	test ! -f discount_src/Makefile || \
+	  (cd discount_src && \
+	  	$(MAKE) distclean && \
+	  	git clean -d -f -x)
 
-discountex-clean:
-	rm -rf $(EBIN_DIR)
-	rm -rf test/tmp
-	rm -rf share
-	@echo
+discount_ex-clean:
+	rm -rf $(EBIN_DIR) test/tmp share/*
 
-clean: discount-clean discountex-clean
+clean: discount_src-clean discount_ex-clean
 
-distclean: discount-distclean discountex-clean
+distclean: discount_src-distclean discount_ex-clean
 
-test:
-	@mix test
-
-.PHONY: all discount compile clean distclean test
+.PHONY: all discount_ex clean distclean discount_src-clean discount_src-distclean
