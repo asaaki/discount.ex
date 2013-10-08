@@ -9,13 +9,8 @@ defmodule Discount.Markdown do
       end
 
       receive do
-        {:parsed, {status, result}} ->
-          case status do
-            :ok    -> result
-            :error -> false
-          end
-
-        _ -> false
+        {:parsed, result} -> result
+        _                 -> false
       end
 
     end

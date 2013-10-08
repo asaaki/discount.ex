@@ -73,11 +73,11 @@ end
     ]
 
     expected_list = [
-      "<h1>test A</h1>\n",
-      "<h2>test B</h2>\n",
-      "<pre><code class=\"elixir\">test C\n</code></pre>\n",
-      "<h2>test <code>D</code></h2>\n",
-      "<blockquote><p><em>test</em> <strong>E</strong></p></blockquote>\n"
+      {:ok, "<h1>test A</h1>\n"},
+      {:ok, "<h2>test B</h2>\n"},
+      {:ok, "<pre><code class=\"elixir\">test C\n</code></pre>\n"},
+      {:ok, "<h2>test <code>D</code></h2>\n"},
+      {:ok, "<blockquote><p><em>test</em> <strong>E</strong></p></blockquote>\n"}
     ]
 
     callback_test = fn(parsed_list) ->
