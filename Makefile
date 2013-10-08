@@ -1,5 +1,5 @@
 ERLANG_PATH:=$(shell erl -eval 'io:format("~s~n", [lists:concat([code:root_dir(), "/erts-", erlang:system_info(version), "/include"])])' -s init stop -noshell)
-CFLAGS_DISCOUNT=-g -O3 -fPIC
+CFLAGS_DISCOUNT=-g -fPIC
 CFLAGS=$(CFLAGS_DISCOUNT) -Idiscount_src
 ERLANG_FLAGS=-I$(ERLANG_PATH)
 CC?=clang
@@ -32,23 +32,17 @@ DISCOUNT_OBJS=\
 	discount_src/flags.o \
 	discount_src/amalloc.o
 
-NIF_SRC=\
-	src/discount_nif.c
-
-
 all: discount_ex
 
 discount_ex:
 	mix compile
 
-share/discount.so: discount_src/libmarkdown.so ${NIF_SRC}
-	mkdir -p share && \
-	$(CC) $(CFLAGS) $(ERLANG_FLAGS) -shared $(OPTIONS) -o $@ $(DISCOUNT_OBJS) $(NIF_SRC)
+cbin/markdown: discount_src/libmarkdown.a
+	mkdir -p cbin && cp discount_src/markdown cbin/
 
-discount_src/libmarkdown.so: discount_src/configure.sh
+discount_src/libmarkdown.a: discount_src/configure.sh
 	cd discount_src && \
 	CFLAGS="$(CFLAGS_DISCOUNT)" ./configure.sh \
-		--shared \
 		--with-dl=Both \
 		--with-id-anchor \
 		--with-github-tags \
@@ -60,7 +54,7 @@ discount_src/configure.sh:
 	git submodule update --init
 
 discount_src-clean:
-	test ! -f discount_src/libmarkdown.so || \
+	test ! -f discount_src/libmarkdown.a || \
 	  (cd discount_src && $(MAKE) clean)
 
 discount_src-distclean:
@@ -70,7 +64,7 @@ discount_src-distclean:
 	  	git clean -d -f -x)
 
 discount_ex-clean:
-	rm -rf $(EBIN_DIR) test/tmp share/*
+	rm -rf $(EBIN_DIR) test/tmp cbin share/*
 
 clean: discount_src-clean discount_ex-clean
 

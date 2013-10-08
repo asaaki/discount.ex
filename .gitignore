@@ -8,4 +8,4 @@
 /ebin
 erl_crash.dump
 /tmp
-/share
+/cbin
