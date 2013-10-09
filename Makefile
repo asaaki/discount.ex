@@ -35,6 +35,7 @@ DISCOUNT_OBJS=\
 all: discount_ex
 
 discount_ex:
+	mix deps.get
 	mix compile
 
 cbin/markdown: discount_src/libmarkdown.a
