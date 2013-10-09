@@ -9,7 +9,7 @@ defmodule Discount.Markdown do
       end
 
       receive do
-        {:parsed, result} -> result
+        {:parsed, [result]} -> result
         _                 -> false
       end
 
@@ -41,8 +41,8 @@ defmodule Discount.Markdown do
 
       { ^port, { :exit_status, status } } ->
         case status do
-          0 -> callback.({:ok,    data_stack})
-          _ -> callback.({:error, data_stack})
+          0 -> callback.([{:ok,    data_stack}])
+          _ -> callback.([{:error, data_stack}])
         end
 
     end

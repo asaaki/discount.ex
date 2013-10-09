@@ -53,7 +53,7 @@ end
 <p>The <em>final</em> words <strong>are written</strong> here.</p>
     """
 
-    callback_test = fn({status, parsed_html}) ->
+    callback_test = fn([{status, parsed_html}]) ->
       assert status      == :ok
       assert parsed_html == expected_html
     end
