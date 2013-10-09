@@ -1,6 +1,6 @@
 # Discount.ex
 
-Elixir NIF of **discount**, a Markdown parser/converter ([GH: Orc/discount](https://github.com/Orc/discount)).
+Elixir Wrapper for **discount**, a Markdown parser/converter ([GH: Orc/discount](https://github.com/Orc/discount)).
 
 
 
@@ -20,13 +20,17 @@ mix test
 ```
 
 ```shell
-iex -pa ebin
+iex -S mix
 ```
 
 ```elixir
-Discount.Discount.to_html "## markdown string"
+# my_callback_function/1
+# result format: [{ <status symbol>, result_or_error_string }]
+Discount.to_html "## markdown string", my_callback_function
 ```
 
+
+See [tests](./test/discount_test.exs) for example usage.
 
 
 ## License
