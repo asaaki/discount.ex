@@ -1,6 +1,6 @@
 # Discount.ex
 
-Elixir Wrapper for **discount**, a Markdown parser/converter ([GH: Orc/discount](https://github.com/Orc/discount)).
+Elixir wrapper for **discount**, a Markdown parser ([GH: Orc/discount](https://github.com/Orc/discount)).
 
 
 
@@ -38,3 +38,4 @@ See [tests](./test/discount_test.exs) for example usage.
 [MIT/X11](./LICENSE)
 
 Copyright (c) 2013 Christoph Grabo
+
