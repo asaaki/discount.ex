@@ -10,12 +10,12 @@ defmodule Discount.Mixfile do
 
   def project do
     [
-      app: :discount,
-      version: "0.1.0",
-      elixir: "~> 0.10.3",
-      compilers: [:discount, :elixir, :app],
+      app:        :discount,
+      version:    "0.1.0",
+      elixir:     "~> 0.10.3",
+      compilers:  [ :discount, :elixir, :app ],
       source_url: "https://github.com/asaaki/discount.ex",
-      deps: deps
+      deps:       deps
     ]
   end
 
