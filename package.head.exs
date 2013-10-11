@@ -1,6 +1,6 @@
 Expm.Package.new(
-  name:        "Discount.ex",
-  description: "Elixir wrapper for discount, a Markdown parser",
+  name:        "discount",
+  description: "Discount.ex - Elixir wrapper for discount, a Markdown parser",
   version:     :head,
 
   keywords:     [
