@@ -16,7 +16,7 @@ Expm.Package.new(
                   ]
                 ],
   repositories: [
-                  [ github: "asaaki/discount.ex", tag: "0.1.0" ]
+                  [ github: "asaaki/discount.ex" ]
                 ],
   dependencies: [
                   { "parallel", :head }
