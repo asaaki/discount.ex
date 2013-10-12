@@ -1,8 +1,14 @@
 language: erlang
 otp_release:
-   - R16B
+  - R16B
+branches:
+  only:
+    - master
 before_install:
-   - git clone https://github.com/elixir-lang/elixir
-   - cd elixir && make && cd ..
-before_script: "export PATH=`pwd`/elixir/bin:$PATH"
-script: make && mix test
+  - git clone https://github.com/elixir-lang/elixir
+  - cd elixir && make && cd ..
+  - cd .. && mv discount.ex discount && cd discount
+  - git submodule update --init --recursive
+before_script:
+  - "export PATH=`pwd`/elixir/bin:$PATH"
+script: "mix test"
