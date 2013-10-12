@@ -1,4 +1,4 @@
-# Discount.ex
+# Discount.ex [![build status](https://travis-ci.org/asaaki/discount.ex.png?branch=master)](https://travis-ci.org/asaaki/discount.ex)
 
 [expm.co/discount](http://expm.co/discount)
 
