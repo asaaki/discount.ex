@@ -1,7 +1,7 @@
 defmodule DiscountTest do
   use ExUnit.Case
 
-  test "Discount.to_html/2 compiles Markdown to HTML" do
+  test "Discount.to_html/2 compiles a single Markdown text to HTML" do
 
     markdown_doc = """
 # First-level header
@@ -53,20 +53,20 @@ end
 <p>The <em>final</em> words <strong>are written</strong> here.</p>
     """
 
-    callback_test = fn([{status, parsed_html}]) ->
-      assert status      == :ok
-      assert parsed_html == expected_html
+    callback_test = fn([{ status, parsed_html }]) ->
+      assert status        == :ok
+      assert expected_html == parsed_html
     end
 
     Discount.to_html markdown_doc, callback_test
   end
 
 
-  test "Discount.to_html/2 compiles a list of Markdown documents to HTML" do
+  test "Discount.to_html/2 compiles a list of Markdown documents" do
 
     markdown_list = [
       "# test A",
-      "## test B",
+      "## test B with 'single quotes' and \"double quotes\"",
       "```elixir\ntest C\n```",
       "test `D`\n---",
       "> *test* __E__"
@@ -74,14 +74,14 @@ end
 
     expected_list = [
       {:ok, "<h1>test A</h1>\n"},
-      {:ok, "<h2>test B</h2>\n"},
+      {:ok, "<h2>test B with &lsquo;single quotes&rsquo; and &ldquo;double quotes&rdquo;</h2>\n"},
       {:ok, "<pre><code class=\"elixir\">test C\n</code></pre>\n"},
       {:ok, "<h2>test <code>D</code></h2>\n"},
       {:ok, "<blockquote><p><em>test</em> <strong>E</strong></p></blockquote>\n"}
     ]
 
     callback_test = fn(parsed_list) ->
-      assert parsed_list == expected_list
+      assert expected_list == parsed_list
     end
 
     Discount.to_html markdown_list, callback_test
