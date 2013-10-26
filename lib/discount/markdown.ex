@@ -27,8 +27,8 @@ defmodule Discount.Markdown do
       |> String.replace("`","\`")
     )
 
-    { shm_available, _ } = File.stat("/dev/shm")
-    temp_dir_path        = if shm_available == :ok, do: "/dev/shm", else: "/var/tmp"
+    { shm_ok, shm } = File.stat("/dev/shm")
+    temp_dir_path        = if shm_ok == :ok && shm.type == :directory && shm.access == :read_write, do: "/dev/shm", else: "/var/tmp"
     nanosecondized_md5   = System.cmd("echo `date +%s_%N` | md5sum") |> String.replace(%r/[ \-\n]/, "")
     md_path              = "#{temp_dir_path}/#{nanosecondized_md5}.md"
 
