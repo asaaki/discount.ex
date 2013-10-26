@@ -10,7 +10,7 @@ defmodule Discount.Markdown do
 
       receive do
         {:parsed, [result]} -> result
-        _                 -> false
+        _                   -> false
       end
 
     end
@@ -19,30 +19,50 @@ defmodule Discount.Markdown do
   end
 
   def parse_doc(document, callback) do
+    safe_doc = (document
+      |> term_to_binary
+      |> binary_to_term([:safe])
+      |> String.replace("'","\'")
+      |> String.replace("\"","\"")
+      |> String.replace("`","\`")
+    )
+
+    { shm_available, _ } = File.stat("/dev/shm")
+    temp_dir_path        = if shm_available == :ok, do: "/dev/shm", else: "/var/tmp"
+    nanosecondized_md5   = System.cmd("echo `date +%s_%N` | md5sum") |> String.replace(%r/[ \-\n]/, "")
+    md_path              = "#{temp_dir_path}/#{nanosecondized_md5}.md"
+
+    case File.write(md_path, safe_doc) do
+      :ok -> prepare_cmd(md_path, callback)
+      _   -> callback.([{ :error, "COULD NOT CREATE TEMPORARY FILE `#{md_path}`!" }])
+    end
+
+  end
+
+  defp prepare_cmd(md_path, callback) do
     command_path = Path.expand(
       Path.join(
         Path.dirname(__FILE__),
         "../../cbin/markdown"
       )
     )
+    command_line = bitstring_to_list("#{command_path} #{md_path}")
+    port_args    = [ :stream, :binary, :exit_status, :hide, :use_stdio, :stderr_to_stdout ]
+    port         = Port.open({ :spawn, command_line }, port_args)
+    do_cmd(port, md_path, callback)
 
-    command_line = bitstring_to_list("#{command_path} -s '#{document}'")
-
-    port = Port.open({ :spawn, command_line },
-      [:stream, :binary, :exit_status, :hide, :use_stdio, :stderr_to_stdout])
-
-    do_cmd(port, callback)
   end
 
-  defp do_cmd(port, callback, data_stack // "") do
+  defp do_cmd(port, md_path, callback, data_stack // "") do
     receive do
       { ^port, { :data, data } } ->
-        do_cmd(port, callback, data_stack <> data)
+        do_cmd(port, md_path, callback, data_stack <> data)
 
       { ^port, { :exit_status, status } } ->
+        File.rm_rf md_path
         case status do
-          0 -> callback.([{:ok,    data_stack}])
-          _ -> callback.([{:error, data_stack}])
+          0 -> callback.([{ :ok,    data_stack }])
+          _ -> callback.([{ :error, data_stack }])
         end
 
     end
