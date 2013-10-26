@@ -87,4 +87,30 @@ end
     Discount.to_html markdown_list, callback_test
   end
 
+  test "Highly parallel testing (concurrency performance and collision check)" do
+    md_text       = "## test B with 'single quotes' and \"double quotes\""
+    expected_html = "<h2>test B with &lsquo;single quotes&rsquo; and &ldquo;double quotes&rdquo;</h2>"
+    [ markdown_list, expected_list ] = create_list(500, md_text, expected_html)
+
+    callback_test = fn(parsed_list) ->
+      assert expected_list == Enum.sort(parsed_list)
+    end
+
+    Discount.to_html markdown_list, callback_test
+  end
+
+  defp create_list(itemcount, markdown, html) do
+    num_list = Enum.to_list(1 .. itemcount)
+    [
+      ( num_list
+        |> Parallel.map(fn(idx) -> "#{markdown}\n*idx: #{idx}*" end)
+        |> Enum.sort
+      ),
+      ( num_list
+        |> Parallel.map(fn(idx) -> { :ok, "#{html}\n\n<p><em>idx: #{idx}</em></p>\n" } end)
+        |> Enum.sort
+      )
+    ]
+  end
+
 end
