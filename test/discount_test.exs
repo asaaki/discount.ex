@@ -68,6 +68,8 @@ end
       "# test A",
       "## test B with 'single quotes' and \"double quotes\"",
       "```elixir\ntest C\n```",
+      "```elixir\ntest \"C2\"\n```",
+      "```elixir\ntest 'C3'\n```",
       "test `D`\n---",
       "> *test* __E__"
     ]
@@ -76,6 +78,8 @@ end
       {:ok, "<h1>test A</h1>\n"},
       {:ok, "<h2>test B with &lsquo;single quotes&rsquo; and &ldquo;double quotes&rdquo;</h2>\n"},
       {:ok, "<pre><code class=\"elixir\">test C\n</code></pre>\n"},
+      {:ok, "<pre><code class=\"elixir\">test \"C2\"\n</code></pre>\n"},
+      {:ok, "<pre><code class=\"elixir\">test 'C3'\n</code></pre>\n"},
       {:ok, "<h2>test <code>D</code></h2>\n"},
       {:ok, "<blockquote><p><em>test</em> <strong>E</strong></p></blockquote>\n"}
     ]
