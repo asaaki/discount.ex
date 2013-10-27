@@ -2,7 +2,7 @@
 
 [expm.co/discount](http://expm.co/discount)
 
-Elixir wrapper for **discount**, a Markdown parser ([GH: Orc/discount](https://github.com/Orc/discount)).
+Elixir NIF for **discount**, a Markdown parser ([GH: Orc/discount](https://github.com/Orc/discount)).
 
 
 
