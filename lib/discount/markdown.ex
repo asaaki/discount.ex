@@ -1,72 +1,31 @@
 defmodule Discount.Markdown do
+  @on_load { :init, 0 }
 
-  def parse_doc_list(documents, callback, cmd_opts // []) do
-    result_list = documents |> Parallel.map fn(document) ->
-      current = self
-
-      parse_doc document, fn(result) ->
-        current <- {:parsed, result}
-      end, cmd_opts
-
-      receive do
-        {:parsed, [result]} -> result
-        _                   -> false
-      end
-
-    end
-
-    callback.(result_list)
+  def init do
+    path = :filename.join(:code.priv_dir(:discount), 'markdown')
+    :ok  = :erlang.load_nif(path, 1)
   end
 
-  def parse_doc(document, callback, cmd_opts // []) do
-    safe_doc = (document
-      |> term_to_binary
-      |> binary_to_term([:safe])
-      |> String.replace("'","\'")
-      |> String.replace("\"","\"")
-      |> String.replace("`","\`")
-    )
-
-    { shm_ok, shm } = File.stat("/dev/shm")
-    temp_dir_path        = if shm_ok == :ok && shm.type == :directory && shm.access == :read_write, do: "/dev/shm", else: "/var/tmp"
-    nanosecondized_md5   = System.cmd("echo `date +%s_%N` | md5sum") |> String.replace(%r/[ \-\n]/, "")
-    md_path              = "#{temp_dir_path}/#{nanosecondized_md5}.md"
-
-    case File.write(md_path, safe_doc) do
-      :ok -> prepare_cmd(md_path, callback, cmd_opts)
-      _   -> callback.([{ :error, "COULD NOT CREATE TEMPORARY FILE `#{md_path}`!" }])
-    end
-
+  def nif_to_html(_) do
+    exit(:nif_library_not_loaded)
   end
 
-  defp prepare_cmd(md_path, callback, cmd_opts) do
-    command_path = Path.expand(
-      Path.join(
-        Path.dirname(__FILE__),
-        "../../cbin/markdown"
-      )
-    )
-    command_options = cmd_opts |> Enum.join(" ")
-    command_line    = bitstring_to_list("#{command_path} #{md_path} #{command_options}")
-    port_args       = [ :stream, :binary, :exit_status, :hide, :use_stdio, :stderr_to_stdout ]
-    port            = Port.open({ :spawn, command_line }, port_args)
-    do_cmd(port, md_path, callback)
-
+  def parse_doc_list(documents) do
+    # Parallel.map: Unfortunately this can lead to an disordered list!
+    # Parallel.map documents, fn(document) -> parse_doc(document) end
+    Enum.map documents, fn(document) -> parse_doc(document) end
   end
 
-  defp do_cmd(port, md_path, callback, data_stack // "") do
-    receive do
-      { ^port, { :data, data } } ->
-        do_cmd(port, md_path, callback, data_stack <> data)
+  def parse_doc_list(documents, callback) do
+    callback.(parse_doc_list(documents))
+  end
 
-      { ^port, { :exit_status, status } } ->
-        File.rm_rf md_path
-        case status do
-          0 -> callback.([{ :ok,    data_stack }])
-          _ -> callback.([{ :error, data_stack }])
-        end
+  def parse_doc(document) do
+    nif_to_html(document)
+  end
 
-    end
+  def parse_doc(document, callback) do
+    callback.([{ :ok, nif_to_html(document) }])
   end
 
 end

@@ -49,18 +49,14 @@ discount_ex:
 	mix deps.get
 	mix compile
 
-cbin/markdown: discount_src/libmarkdown.a
-	mkdir -p cbin && cp discount_src/markdown cbin/
-
 $(DISCOUNT_LIB): discount_src/configure.sh
 	cd discount_src && \
 	CFLAGS="$(CFLAGS_DISCOUNT)" ./configure.sh \
 		--with-dl=Both \
 		--with-id-anchor \
 		--with-github-tags \
-		--with-fenced-code \
-		--enable-all-features && \
-	CFLAGS="$(CFLAGS_DISCOUNT)" $(MAKE)
+		--with-fenced-code 2>&1 >/dev/null && \
+	CFLAGS="$(CFLAGS_DISCOUNT)" $(MAKE) 2>&1 >/dev/null
 
 discount_src/configure.sh:
 	git submodule update --init
@@ -76,7 +72,7 @@ discount_src-distclean:
 	  	git clean -d -f -x)
 
 discount_ex-clean:
-	rm -rf $(EBIN_DIR) test/tmp cbin share/*
+	rm -rf $(EBIN_DIR) test/tmp share/*
 
 discount_nif-clean:
 	rm -rf priv/markdown.*

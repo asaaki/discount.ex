@@ -1,7 +1,6 @@
 defmodule Mix.Tasks.Compile.Discount do
   @shortdoc "Compiles discount library"
   def run(_) do
-    Mix.shell.info System.cmd("make cbin/markdown")
     Mix.shell.info System.cmd("make priv/markdown.so")
   end
 end
