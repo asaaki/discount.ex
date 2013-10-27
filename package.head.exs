@@ -7,7 +7,7 @@ Expm.Package.new(
                   "markdown",
                   "discount",
                   "parser",
-                  "wrapper"
+                  "NIF"
                 ],
   maintainers:  [
                   [
