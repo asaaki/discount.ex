@@ -10,6 +10,9 @@ ifeq ($(shell uname),Darwin)
 	OPTIONS=-dynamiclib -undefined dynamic_lookup
 endif
 
+NIF_SRC=\
+	src/markdown_nif.c
+
 DISCOUNT_OBJS=\
 	discount_src/mkdio.o \
 	discount_src/markdown.o \
@@ -31,7 +34,16 @@ DISCOUNT_OBJS=\
 	discount_src/html5.o \
 	discount_src/flags.o
 
+DISCOUNT_LIB=discount_src/libmarkdown.a
+
 all: discount_ex
+
+priv/markdown.so: ${DISCOUNT_LIB} ${NIF_SRC}
+	mkdir -p priv && \
+	$(CC) $(CFLAGS) $(ERLANG_FLAGS) -shared $(OPTIONS) \
+		$(DISCOUNT_OBJS) \
+		$(NIF_SRC) \
+		-o $@ 2>&1 >/dev/null
 
 discount_ex:
 	mix deps.get
@@ -40,7 +52,7 @@ discount_ex:
 cbin/markdown: discount_src/libmarkdown.a
 	mkdir -p cbin && cp discount_src/markdown cbin/
 
-discount_src/libmarkdown.a: discount_src/configure.sh
+$(DISCOUNT_LIB): discount_src/configure.sh
 	cd discount_src && \
 	CFLAGS="$(CFLAGS_DISCOUNT)" ./configure.sh \
 		--with-dl=Both \
@@ -54,7 +66,7 @@ discount_src/configure.sh:
 	git submodule update --init
 
 discount_src-clean:
-	test ! -f discount_src/libmarkdown.a || \
+	test ! -f $(DISCOUNT_LIB) || \
 	  (cd discount_src && $(MAKE) clean)
 
 discount_src-distclean:
@@ -66,8 +78,11 @@ discount_src-distclean:
 discount_ex-clean:
 	rm -rf $(EBIN_DIR) test/tmp cbin share/*
 
-clean: discount_src-clean discount_ex-clean
+discount_nif-clean:
+	rm -rf priv/markdown.*
 
-distclean: discount_src-distclean discount_ex-clean
+clean: discount_src-clean discount_ex-clean discount_nif-clean
+
+distclean: discount_src-distclean discount_ex-clean discount_nif-clean
 
 .PHONY: all discount_ex clean distclean discount_src-clean discount_src-distclean
