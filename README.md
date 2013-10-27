@@ -16,19 +16,22 @@ git clone https://github.com/asaaki/discount.ex.git discount
 
 ## Build and test
 
+__Run tests (will also build if not already done via `make`):__
+
 ```shell
-make
 mix test
 ```
+
+__Run a IEx shell with library compiled and loaded:__
 
 ```shell
 iex -S mix
 ```
 
 ```elixir
-# my_callback_function/1
-# result format: [{ <status symbol>, result_or_error_string }]
-Discount.to_html "## markdown string", my_callback_function
+result = Discount.to_html "## markdown string"
+# or
+Discount.to_html "## markdown string", my_callback_function_taking_one_argument
 ```
 
 
@@ -40,4 +43,3 @@ See [tests](./test/discount_test.exs) for example usage.
 [MIT/X11](./LICENSE)
 
 Copyright (c) 2013 Christoph Grabo
-
