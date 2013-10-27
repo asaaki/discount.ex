@@ -21,6 +21,6 @@ defmodule Discount.Mixfile do
 
   def application, do: []
 
-  defp deps, do: [{ :parallel, github: "eproxus/parallel" }]
+  defp deps, do: []
 
 end

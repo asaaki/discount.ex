@@ -11,8 +11,6 @@ defmodule Discount.Markdown do
   end
 
   def parse_doc_list(documents) do
-    # Parallel.map: Unfortunately this can lead to an disordered list!
-    # Parallel.map documents, fn(document) -> parse_doc(document) end
     Enum.map documents, fn(document) -> parse_doc(document) end
   end
 
