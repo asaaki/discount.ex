@@ -29,8 +29,7 @@ DISCOUNT_OBJS=\
 	discount_src/setup.o \
 	discount_src/tags.o \
 	discount_src/html5.o \
-	discount_src/flags.o \
-	discount_src/amalloc.o
+	discount_src/flags.o
 
 all: discount_ex
 
