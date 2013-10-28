@@ -18,6 +18,12 @@ defmodule Discount.Markdown do
     callback.(parse_doc_list(documents))
   end
 
+  def parse_doc_list_each(documents, callback) do
+    Enum.map documents, fn(document) ->
+      parse_doc(document, callback)
+    end
+  end
+
   def parse_doc(document) do
     nif_to_html(document)
   end
