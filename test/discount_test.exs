@@ -1,19 +1,107 @@
 defmodule DiscountTest do
   use ExUnit.Case
 
-  test "Discount.to_html/2 compiles a single Markdown text to HTML" do
+  test "Discount.to_html/1 compiles a single Markdown text to HTML" do
 
     { :ok, markdown_doc }  = File.read("test/single_doc.md")
     { :ok, expected_html } = File.read("test/single_doc.html")
-    # Trailing line break while reading the HTML file, so we append this to our parsed result, too
-    result_html            = Discount.to_html(markdown_doc) <> "\n"
+    expected_html          = String.strip(expected_html)
+    result_html            = Discount.to_html(markdown_doc)
 
     assert expected_html == result_html
   end
 
+  test "Discount.to_html/2 compiles a single Markdown text to HTML and calls function with result" do
 
-  test "Discount.to_html/2 compiles a list of Markdown documents" do
+    { :ok, markdown_doc }  = File.read("test/single_doc.md")
+    { :ok, expected_html } = File.read("test/single_doc.html")
 
+    Discount.to_html markdown_doc, fn(result_html) ->
+      assert String.strip(expected_html) == result_html
+    end
+
+  end
+
+  test "Discount.to_html/1 compiles a list of Markdown documents" do
+    [ markdown_list, expected_list ] = get_prepared_lists
+
+    assert expected_list == Discount.to_html(markdown_list)
+  end
+
+  test "Discount.to_html/2 compiles a list of Markdown documents and calls function with result list" do
+    [ markdown_list, expected_list ] = get_prepared_lists
+
+    Discount.to_html markdown_list, fn(result_list) ->
+      assert expected_list == result_list
+    end
+  end
+
+
+  test "Discount.to_html/2 fails if input is not a proper list or bitstring/binary" do
+    assert_raise_helper_collection(&assert_raise_helper_for_to_html/1)
+  end
+
+  test "Discount.to_html_each/2 compiles a list of Markdown documents and calls function for each item" do
+    [ markdown_list, expected_list ] = get_prepared_lists
+
+    Discount.to_html_each markdown_list, fn(result_item) ->
+      assert Enum.any?(expected_list, fn(e)-> e == result_item end)
+    end
+  end
+
+  test "Discount.to_html_each/2 fails if input is not a proper list" do
+    assert_raise_helper_collection(&assert_raise_helper_for_to_html_each/1)
+  end
+
+  test "Highly parallel testing (concurrency performance and collision check) - SIMPLE!" do
+    md_text       = "## test P / 'single quotes', \"double quotes\""
+    expected_html = "<h2>test P / &lsquo;single quotes&rsquo;, &ldquo;double quotes&rdquo;</h2>"
+    [ markdown_list, expected_list ] = create_simple_list(100_000, md_text, expected_html)
+
+    assert expected_list == Discount.to_html(markdown_list)
+  end
+
+  test "Highly parallel testing (concurrency performance and collision check)" do
+    md_text       = "## test P / 'single quotes', \"double quotes\""
+    expected_html = "<h2>test P / &lsquo;single quotes&rsquo;, &ldquo;double quotes&rdquo;</h2>"
+    [ markdown_list, expected_list ] = create_list(100_000, md_text, expected_html)
+
+    assert expected_list == Discount.to_html(markdown_list)
+  end
+
+
+
+  # test helper methods
+
+  defp assert_raise_helper_collection(func) do
+    [
+      { :tuple },
+      true,
+      false,
+      nil,
+      2342,
+      23.42,
+      fn-> :dummy end,
+      self(),
+      make_ref,
+      Port.open({:spawn,'echo dummy 2>&1 >/dev/null'},[])
+    ] |> Enum.each(fn(e)-> func.(e) end)
+  end
+
+  defp assert_raise_helper_for_to_html(input_value) do
+    assert_raise_helper(&Discount.to_html(&1), "Discount.to_html/1", input_value)
+    assert_raise_helper(&Discount.to_html(&1, fn(_)-> end), "Discount.to_html/2", input_value)
+  end
+
+  defp assert_raise_helper_for_to_html_each(input_value) do
+    assert_raise_helper(&Discount.to_html_each(&1, fn(_)-> end),"Discount.to_html_each/2", input_value)
+  end
+
+  defp assert_raise_helper(func, func_s, input_value) do
+    assert_raise FunctionClauseError, "no function clause matching in #{func_s}", fn -> func.(input_value) end
+  end
+
+  defp get_prepared_lists do
     markdown_list = [
       "# test A",
       "## test B with 'single quotes' and \"double quotes\"",
@@ -34,15 +122,7 @@ defmodule DiscountTest do
       "<blockquote><p><em>test</em> <strong>E</strong></p></blockquote>"
     ]
 
-    assert expected_list == Discount.to_html(markdown_list)
-  end
-
-  test "Highly parallel testing (concurrency performance and collision check) - SIMPLE!" do
-    md_text       = "## test P / 'single quotes', \"double quotes\""
-    expected_html = "<h2>test P / &lsquo;single quotes&rsquo;, &ldquo;double quotes&rdquo;</h2>"
-    [ markdown_list, expected_list ] = create_simple_list(100_000, md_text, expected_html)
-
-    assert expected_list == Discount.to_html(markdown_list)
+    [markdown_list, expected_list]
   end
 
   defp create_simple_list(itemcount, markdown, html) do
@@ -51,14 +131,6 @@ defmodule DiscountTest do
       ( num_list |> Enum.map(fn(_) -> markdown end) ),
       ( num_list |> Enum.map(fn(_) -> html end) )
     ]
-  end
-
-  test "Highly parallel testing (concurrency performance and collision check)" do
-    md_text       = "## test P / 'single quotes', \"double quotes\""
-    expected_html = "<h2>test P / &lsquo;single quotes&rsquo;, &ldquo;double quotes&rdquo;</h2>"
-    [ markdown_list, expected_list ] = create_list(100_000, md_text, expected_html)
-
-    assert expected_list == Discount.to_html(markdown_list)
   end
 
   defp create_list(itemcount, markdown, html) do
