@@ -35,7 +35,7 @@ Discount.to_html "## markdown string", my_callback_function_taking_one_argument
 ```
 
 
-See [tests](./test/discount_test.exs) for example usage.
+See [test examples](./test/discount_test.exs) for usage.
 
 
 ## License
@@ -46,4 +46,3 @@ Copyright (c) 2013 Christoph Grabo
 
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/asaaki/discount.ex/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
