@@ -29,7 +29,7 @@ defmodule Discount.Markdown do
   end
 
   def parse_doc(document, callback) do
-    callback.([{ :ok, nif_to_html(document) }])
+    callback.(nif_to_html(document))
   end
 
 end
