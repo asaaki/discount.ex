@@ -46,7 +46,6 @@ priv/markdown.so: ${DISCOUNT_LIB} ${NIF_SRC}
 		-o $@ 2>&1 >/dev/null
 
 discount_ex:
-	mix deps.get
 	mix compile
 
 $(DISCOUNT_LIB): discount_src/configure.sh
@@ -72,7 +71,7 @@ discount_src-distclean:
 	  	git clean -d -f -x)
 
 discount_ex-clean:
-	rm -rf $(EBIN_DIR) test/tmp share/*
+	rm -rf $(EBIN_DIR) test/tmp share/* _build
 
 discount_nif-clean:
 	rm -rf priv/markdown.*

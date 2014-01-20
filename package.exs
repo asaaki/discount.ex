@@ -1,7 +1,7 @@
 Expm.Package.new(
   name:        "discount",
   description: "Discount.ex - Elixir NIF for discount, a Markdown parser",
-  version:     "0.3.1",
+  version:     "0.4.0",
 
   keywords:     [
                   "markdown",
@@ -16,7 +16,7 @@ Expm.Package.new(
                   ]
                 ],
   repositories: [
-                  [ github: "asaaki/discount.ex", tag: "0.3.1" ]
+                  [ github: "asaaki/discount.ex", tag: "0.4.0" ]
                 ],
   dependencies: [
                 ])

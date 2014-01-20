@@ -42,4 +42,4 @@ See [test examples](./test/discount_test.exs) for usage.
 
 [MIT/X11](./LICENSE)
 
-Copyright (c) 2013 Christoph Grabo
+Copyright (c) 2013—2014 Christoph Grabo
