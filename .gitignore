@@ -4,7 +4,8 @@
 *.o
 *.plt
 *.so
-/_build
-/deps
-/ebin
+_build
+deps
+docs
+ebin
 erl_crash.dump

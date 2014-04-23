@@ -1,23 +1,34 @@
 defmodule Discount do
+  @moduledoc """
+    Compiles Markdown formatted text into HTML
+  """
 
-  def to_html_each(input_data, callback) when is_list(input_data) do
-    Discount.Markdown.parse_doc_list_each input_data, callback
+  @doc """
+    Compiles a list of Markdown documents and calls function for each item
+  """
+  def to_html_each(input, callback) when is_list(input) do
+    Discount.Markdown.parse_doc_list_each input, callback
   end
 
-  def to_html(input_data, callback) when is_list(input_data) do
-    Discount.Markdown.parse_doc_list input_data, callback
+  @doc """
+    Compiles one or more (list) Markdown documents to HTML and calls function with result
+  """
+  def to_html(input, callback) when is_list(input) do
+    Discount.Markdown.parse_doc_list input, callback
   end
 
-  def to_html(input_data, callback) when is_bitstring(input_data) do
-    Discount.Markdown.parse_doc input_data, callback
+  def to_html(input, callback) when is_bitstring(input) do
+    Discount.Markdown.parse_doc input, callback
   end
 
-  def to_html(input_data) when is_list(input_data) do
-    Discount.Markdown.parse_doc_list input_data
+  @doc """
+    Compiles one or more (list) Markdown documents to HTML and returns result
+  """
+  def to_html(input) when is_list(input) do
+    Discount.Markdown.parse_doc_list input
   end
 
-  def to_html(input_data) when is_bitstring(input_data) do
-    Discount.Markdown.parse_doc(input_data)
+  def to_html(input) when is_bitstring(input) do
+    Discount.Markdown.parse_doc(input)
   end
-
 end

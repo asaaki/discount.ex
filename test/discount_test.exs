@@ -2,7 +2,6 @@ defmodule DiscountTest do
   use ExUnit.Case
 
   test "Discount.to_html/1 compiles a single Markdown text to HTML" do
-
     { :ok, markdown_doc }  = File.read("test/single_doc.md")
     { :ok, expected_html } = File.read("test/single_doc.html")
     expected_html          = String.strip(expected_html)
@@ -12,14 +11,12 @@ defmodule DiscountTest do
   end
 
   test "Discount.to_html/2 compiles a single Markdown text to HTML and calls function with result" do
-
     { :ok, markdown_doc }  = File.read("test/single_doc.md")
     { :ok, expected_html } = File.read("test/single_doc.html")
 
     Discount.to_html markdown_doc, fn(result_html) ->
       assert String.strip(expected_html) == result_html
     end
-
   end
 
   test "Discount.to_html/1 compiles a list of Markdown documents" do
@@ -68,8 +65,6 @@ defmodule DiscountTest do
 
     assert expected_list == Discount.to_html(markdown_list)
   end
-
-
 
   # test helper methods
 
@@ -142,5 +137,4 @@ defmodule DiscountTest do
         |> Enum.map(fn(idx) -> "#{html}\n\n<p><em>idx: #{idx}</em></p>" end) )
     ]
   end
-
 end
