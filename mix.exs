@@ -26,7 +26,7 @@ defmodule Discount.Mixfile do
 
   defp description do
     """
-    Here should be a few sentences or paragraphs describing the project.
+    Elixir NIF for discount, a Markdown parser
     """
   end
 
@@ -34,7 +34,21 @@ defmodule Discount.Mixfile do
     [
       contributors: ["Christoph Grabo"],
       licenses:     ["MIT"],
-      links:        [github: "https://github.com/asaaki/discount.ex"]
+      links: [
+        { "GitHub", "https://github.com/asaaki/discount.ex" },
+        { "Issues", "https://github.com/asaaki/discount.ex/issues" },
+        { "Source (Orc/discount)", "https://github.com/Orc/discount" }
+      ],
+      files: [
+        "lib",
+        "src",
+        "discount_src",
+        "priv",
+        "Makefile",
+        "mix.exs",
+        "README.md",
+        "LICENSE"
+      ]
     ]
   end
 
