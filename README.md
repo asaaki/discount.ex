@@ -19,28 +19,31 @@ Elixir NIF for **discount**, a Markdown parser ([GH: Orc/discount](https://githu
 
 
 
-## Build and test
-
-__Run tests (will also build if not already done via `make`):__
+## Test
 
 ```shell
-mix test
+make test
 ```
 
-__Run a IEx shell with library compiled and loaded:__
+
+
+## Use
 
 ```shell
+make
 iex -S mix
 ```
 
 ```elixir
-result = Discount.to_html "## markdown string"
-# or
+Discount.to_html "## markdown string"
+#=> "<h2>markdown string</h2>"
+
+# Alternatively pass the compiled document to a function:
 Discount.to_html "## markdown string", my_callback_function_taking_one_argument
 ```
 
-
 See [test examples](./test/discount_test.exs) for more detailed usage.
+
 
 
 ## License
