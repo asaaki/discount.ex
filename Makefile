@@ -3,7 +3,6 @@ CFLAGS_DISCOUNT=-g -fPIC -O3
 CFLAGS=$(CFLAGS_DISCOUNT) -Idiscount_src
 ERLANG_FLAGS=-I$(ERLANG_PATH)
 CC?=clang
-CXX?=clang++
 EBIN_DIR=ebin
 
 ifeq ($(shell uname),Darwin)

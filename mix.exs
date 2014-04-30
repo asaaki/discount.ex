@@ -3,7 +3,9 @@ Code.ensure_loaded?(Hex) and Hex.start
 defmodule Mix.Tasks.Compile.Discount do
   @shortdoc "Compiles discount library"
   def run(_) do
-    Mix.shell.info System.cmd("make priv/markdown.so")
+    if Mix.shell.cmd("make priv/markdown.so") != 0 do
+      raise Mix.Error, message: "could not run `make priv/markdown.so`. Do you have make and gcc installed?"
+    end
   end
 end
 

@@ -4,8 +4,10 @@
 *.o
 *.plt
 *.so
-_build
-deps
-docs
-ebin
+_build/*
+deps/*
+docs/*
+ebin/*
 erl_crash.dump
+precompiled.zip
+vendor/*
