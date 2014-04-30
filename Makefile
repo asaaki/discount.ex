@@ -75,8 +75,17 @@ discount_ex-clean:
 discount_nif-clean:
 	rm -rf priv/markdown.*
 
-clean: discount_src-clean discount_ex-clean discount_nif-clean
+docs:
+	MIX_ENV=docs mix do clean, deps.get, compile, docs
 
-distclean: discount_src-distclean discount_ex-clean discount_nif-clean
+docs-clean:
+	rm -rf docs
 
-.PHONY: all discount_ex clean distclean discount_src-clean discount_src-distclean
+test:
+	MIX_ENV=test mix do clean, deps.get, compile, test
+
+clean: discount_src-clean discount_ex-clean discount_nif-clean docs-clean
+
+distclean: discount_src-distclean discount_ex-clean discount_nif-clean docs-clean
+
+.PHONY: all discount_ex clean distclean discount_src-clean discount_src-distclean test

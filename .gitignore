@@ -9,5 +9,3 @@ deps/*
 docs/*
 ebin/*
 erl_crash.dump
-precompiled.zip
-vendor/*

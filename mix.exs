@@ -16,7 +16,7 @@ defmodule Discount.Mixfile do
     [
       app:         :discount,
       version:     "0.5.1",
-      elixir:      "~> 0.13.0",
+      elixir:      "~> 0.13.1",
       compilers:   [:discount, :elixir, :app],
       deps:        deps(Mix.env),
       package:     package,

@@ -13,4 +13,4 @@ before_install:
   - git submodule update --init --recursive
 before_script:
   - "export PATH=`pwd`/elixir/bin:$PATH"
-script: "MIX_ENV=test mix do clean, compile, test"
+script: "make test"
