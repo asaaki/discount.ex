@@ -35,7 +35,7 @@ defmodule Discount.Mixfile do
   defp package do
     [
       contributors: ["Christoph Grabo"],
-      licenses:     ["MIT"],
+      license:      "MIT",
       links: [
         { "GitHub", "https://github.com/asaaki/discount.ex" },
         { "Issues", "https://github.com/asaaki/discount.ex/issues" },
