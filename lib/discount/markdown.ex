@@ -11,7 +11,9 @@ defmodule Discount.Markdown do
   end
 
   def parse_doc_list(documents) do
-    Enum.map documents, &(parse_doc(&1))
+    documents
+    |> Enum.map(&Task.async(fn -> parse_doc(&1) end))
+    |> Enum.map(&Task.await(&1))
   end
 
   def parse_doc_list(documents, callback) do
@@ -19,7 +21,9 @@ defmodule Discount.Markdown do
   end
 
   def parse_doc_list_each(documents, callback) do
-    Enum.map documents, &(parse_doc(&1, callback))
+    documents
+    |> Enum.map(&Task.async(fn -> parse_doc(&1, callback) end))
+    |> Enum.map(&Task.await(&1))
   end
 
   def parse_doc(document) do
