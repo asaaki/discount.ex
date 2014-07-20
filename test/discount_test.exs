@@ -2,21 +2,17 @@ defmodule DiscountTest do
   use ExUnit.Case
 
   test "Discount.to_html/1 compiles a single Markdown text to HTML" do
-    { :ok, markdown_doc }  = File.read("test/single_doc.md")
-    { :ok, expected_html } = File.read("test/single_doc.html")
-    expected_html          = String.strip(expected_html)
-    result_html            = Discount.to_html(markdown_doc)
+    result_html   = File.read!("test/single_doc.md") |> Discount.to_html
+    expected_html = File.read!("test/single_doc.html") |> String.strip
 
     assert expected_html == result_html
   end
 
   test "Discount.to_html/2 compiles a single Markdown text to HTML and calls function with result" do
-    { :ok, markdown_doc }  = File.read("test/single_doc.md")
-    { :ok, expected_html } = File.read("test/single_doc.html")
+    markdown_doc  = File.read!("test/single_doc.md")
+    expected_html = File.read!("test/single_doc.html") |> String.strip
 
-    Discount.to_html markdown_doc, fn(result_html) ->
-      assert String.strip(expected_html) == result_html
-    end
+    Discount.to_html markdown_doc, &(assert expected_html == &1)
   end
 
   test "Discount.to_html/1 compiles a list of Markdown documents" do
@@ -28,9 +24,7 @@ defmodule DiscountTest do
   test "Discount.to_html/2 compiles a list of Markdown documents and calls function with result list" do
     [ markdown_list, expected_list ] = get_prepared_lists
 
-    Discount.to_html markdown_list, fn(result_list) ->
-      assert expected_list == result_list
-    end
+    Discount.to_html markdown_list, &(assert expected_list == &1)
   end
 
 
@@ -41,8 +35,8 @@ defmodule DiscountTest do
   test "Discount.to_html_each/2 compiles a list of Markdown documents and calls function for each item" do
     [ markdown_list, expected_list ] = get_prepared_lists
 
-    Discount.to_html_each markdown_list, fn(result_item) ->
-      assert Enum.any?(expected_list, fn(e)-> e == result_item end)
+    Discount.to_html_each markdown_list, fn (result_item) ->
+      assert Enum.any?(expected_list, &(&1 == result_item))
     end
   end
 
@@ -121,20 +115,18 @@ defmodule DiscountTest do
   end
 
   defp create_simple_list(itemcount, markdown, html) do
-    num_list = Enum.to_list(1 .. itemcount)
+    num_list = (1 .. itemcount) |> Enum.to_list
     [
-      ( num_list |> Enum.map(fn(_) -> markdown end) ),
-      ( num_list |> Enum.map(fn(_) -> html end) )
+      (num_list |> Enum.map(fn(_) -> markdown end)),
+      (num_list |> Enum.map(fn(_) -> html end))
     ]
   end
 
   defp create_list(itemcount, markdown, html) do
-    num_list = Enum.to_list(1 .. itemcount)
+    num_list = (1 .. itemcount) |> Enum.to_list
     [
-      ( num_list
-        |> Enum.map(fn(idx) -> "#{markdown}\n*idx: #{idx}*" end) ),
-      ( num_list
-        |> Enum.map(fn(idx) -> "#{html}\n\n<p><em>idx: #{idx}</em></p>" end) )
+      Enum.map(num_list, &("#{markdown}\n*idx: #{&1}*")),
+      Enum.map(num_list, &("#{html}\n\n<p><em>idx: #{&1}</em></p>"))
     ]
   end
 end
