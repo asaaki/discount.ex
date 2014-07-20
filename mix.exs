@@ -29,12 +29,12 @@ defmodule Discount.Mixfile do
   defp package do
     [
       contributors: ["Christoph Grabo"],
-      license:      "MIT",
-      links: [
-        { "GitHub",                "https://github.com/asaaki/discount.ex" },
-        { "Issues",                "https://github.com/asaaki/discount.ex/issues" },
-        { "Source (Orc/discount)", "https://github.com/Orc/discount" }
-      ],
+      licenses:     ["MIT"],
+      links: %{
+        "GitHub"                => "https://github.com/asaaki/discount.ex",
+        "Issues"                => "https://github.com/asaaki/discount.ex/issues",
+        "Source (Orc/discount)" => "https://github.com/Orc/discount"
+      },
       files: [
         "lib",
         "src",
