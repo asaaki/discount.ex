@@ -16,29 +16,23 @@ defmodule Discount.Mixfile do
     [
       app:         :discount,
       version:     "0.5.2",
-      elixir:      "~> 0.13.2",
+      elixir:      "~> 0.14.3",
       compilers:   [:discount, :elixir, :app],
       deps:        deps(Mix.env),
       package:     package,
-      description: description
+      description: "Elixir NIF for discount, a Markdown parser"
     ]
   end
 
   def application, do: []
-
-  defp description do
-    """
-    Elixir NIF for discount, a Markdown parser
-    """
-  end
 
   defp package do
     [
       contributors: ["Christoph Grabo"],
       license:      "MIT",
       links: [
-        { "GitHub", "https://github.com/asaaki/discount.ex" },
-        { "Issues", "https://github.com/asaaki/discount.ex/issues" },
+        { "GitHub",                "https://github.com/asaaki/discount.ex" },
+        { "Issues",                "https://github.com/asaaki/discount.ex/issues" },
         { "Source (Orc/discount)", "https://github.com/Orc/discount" }
       ],
       files: [
@@ -54,11 +48,6 @@ defmodule Discount.Mixfile do
     ]
   end
 
-  defp deps(:docs) do
-    [{ :ex_doc, github: "elixir-lang/ex_doc" }]
-  end
-
-  defp deps(_) do
-    []
-  end
+  defp deps(:docs), do: [{ :ex_doc, github: "elixir-lang/ex_doc" }]
+  defp deps(_),     do: []
 end
