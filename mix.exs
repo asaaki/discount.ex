@@ -15,8 +15,8 @@ defmodule Discount.Mixfile do
   def project do
     [
       app:         :discount,
-      version:     "0.5.3",
-      elixir:      "~> 0.14.3",
+      version:     "0.5.4",
+      elixir:      "~> 0.15.1",
       compilers:   [:discount, :elixir, :app],
       deps:        deps(Mix.env),
       package:     package,
@@ -48,6 +48,6 @@ defmodule Discount.Mixfile do
     ]
   end
 
-  defp deps(:docs), do: [{ :ex_doc, github: "elixir-lang/ex_doc" }]
+  defp deps(:docs), do: [{ :ex_doc, "~> 0.5.1 " }]
   defp deps(_),     do: []
 end
