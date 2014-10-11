@@ -2,8 +2,7 @@
 
 Elixir NIF for **discount**, a Markdown parser ([GH: Orc/discount](https://github.com/Orc/discount)).
 
-- [hex.pm/packages/discount](https://hex.pm/packages/discount) (`>= 0.5.0`)
-- [expm.co/discount](http://expm.co/discount) (`<= 0.4.0`)
+- [hex.pm/packages/discount](https://hex.pm/packages/discount)
 
 
 
@@ -12,7 +11,7 @@ Elixir NIF for **discount**, a Markdown parser ([GH: Orc/discount](https://githu
 ```elixir
   defp deps do
     [
-      { :discount, "~> 0.5.1" }
+      { :discount, "~> 0.6.0" }
     ]
   end
 ```
