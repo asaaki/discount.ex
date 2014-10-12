@@ -14,13 +14,17 @@ defmodule Discount.Mixfile do
 
   def project do
     [
-      app:         :discount,
-      version:     "0.6.0",
-      elixir:      "~> 1.0.0",
-      compilers:   [:discount, :elixir, :app],
-      deps:        deps(Mix.env),
-      package:     package,
-      description: "Elixir NIF for discount, a Markdown parser"
+      app:          :discount,
+      version:      "0.6.0",
+      elixir:       "~> 1.0",
+      compilers:    [:discount, :elixir, :app],
+      deps:         deps(Mix.env),
+      package:      package,
+      description:  "Elixir NIF for discount, a Markdown parser",
+      name:         "discount",
+      source_url:   "https://github.com/asaaki/discount.ex",
+      homepage_url: "http://hexdocs.pm/discount",
+      docs:         [readme: true, main: "README"]
     ]
   end
 
@@ -48,6 +52,11 @@ defmodule Discount.Mixfile do
     ]
   end
 
-  defp deps(:docs), do: [{ :ex_doc, "~> 0.6.0" }]
+  defp deps(:dev) do
+    [
+      { :ex_doc,  "~> 0.6" },
+      { :earmark, "~> 0.1" }
+    ]
+  end
   defp deps(_),     do: []
 end

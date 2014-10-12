@@ -1,4 +1,6 @@
-# Discount.ex [![build status](https://travis-ci.org/asaaki/discount.ex.svg?branch=master)](https://travis-ci.org/asaaki/discount.ex)
+# Discount.ex
+
+[![build status](https://travis-ci.org/asaaki/discount.ex.svg?branch=master)](https://travis-ci.org/asaaki/discount.ex)
 
 Elixir NIF for **discount**, a Markdown parser ([GH: Orc/discount](https://github.com/Orc/discount)).
 
@@ -9,11 +11,7 @@ Elixir NIF for **discount**, a Markdown parser ([GH: Orc/discount](https://githu
 ## Add dependency (with `hex`)
 
 ```elixir
-  defp deps do
-    [
-      { :discount, "~> 0.6.0" }
-    ]
-  end
+{ :discount, "~> 0.6.0" }
 ```
 
 
@@ -38,10 +36,12 @@ Discount.to_html "## markdown string"
 #=> "<h2>markdown string</h2>"
 
 # Alternatively pass the compiled document to a function:
-Discount.to_html "## markdown string", my_callback_function_taking_one_argument
+Discount.to_html "## markdown string", fn (html) ->
+  do_something_with(html)
+end
 ```
 
-See [test examples](./test/discount_test.exs) for more detailed usage.
+See [test examples](https://github.com/asaaki/discount.ex/blob/0.6.0/test/discount_test.exs) for more detailed usage.
 
 
 

@@ -9,3 +9,4 @@ deps/*
 docs/*
 ebin/*
 erl_crash.dump
+priv/*.so.dSYM
