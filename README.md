@@ -5,13 +5,14 @@
 Elixir NIF for **discount**, a Markdown parser ([GH: Orc/discount](https://github.com/Orc/discount)).
 
 - [hex.pm/packages/discount](https://hex.pm/packages/discount)
+- [hexdocs.pm/discount](http://hexdocs.pm/discount/)
 
 
 
 ## Add dependency (with `hex`)
 
 ```elixir
-{ :discount, "~> 0.6.0" }
+{ :discount, "~> 0.6.1" }
 ```
 
 
@@ -41,7 +42,7 @@ Discount.to_html "## markdown string", fn (html) ->
 end
 ```
 
-See [test examples](https://github.com/asaaki/discount.ex/blob/0.6.0/test/discount_test.exs) for more detailed usage.
+See [test examples](https://github.com/asaaki/discount.ex/blob/0.6.1/test/discount_test.exs) for more detailed usage.
 
 
 

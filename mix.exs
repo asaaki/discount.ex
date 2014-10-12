@@ -15,7 +15,7 @@ defmodule Discount.Mixfile do
   def project do
     [
       app:          :discount,
-      version:      "0.6.0",
+      version:      "0.6.1",
       elixir:       "~> 1.0",
       compilers:    [:discount, :elixir, :app],
       deps:         deps(Mix.env),
@@ -35,9 +35,9 @@ defmodule Discount.Mixfile do
       contributors: ["Christoph Grabo"],
       licenses:     ["MIT"],
       links: %{
-        "GitHub"                => "https://github.com/asaaki/discount.ex",
-        "Issues"                => "https://github.com/asaaki/discount.ex/issues",
-        "Source (Orc/discount)" => "https://github.com/Orc/discount"
+        "GitHub" => "https://github.com/asaaki/discount.ex",
+        "Issues" => "https://github.com/asaaki/discount.ex/issues",
+        "Docs"   => "http://hexdocs.pm/discount/"
       },
       files: [
         "lib",
