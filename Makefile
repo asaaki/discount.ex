@@ -76,10 +76,20 @@ discount_nif-clean:
 	rm -rf priv/markdown.*
 
 docs:
-	MIX_ENV=docs mix do clean, deps.get, compile, docs
+	@MIX_ENV=docs mix docs
 
 docs-clean:
 	rm -rf docs
+
+### PUBLISH
+
+publish: docs publish-code publish-docs
+
+publish-code: all
+	@mix hex.publish
+
+publish-docs: docs
+	@MIX_ENV=docs mix hex.docs
 
 test:
 	MIX_ENV=test mix do clean, deps.get, compile, test
@@ -88,4 +98,4 @@ clean: discount_src-clean discount_ex-clean discount_nif-clean docs-clean
 
 distclean: discount_src-distclean discount_ex-clean discount_nif-clean docs-clean
 
-.PHONY: all discount_ex clean distclean discount_src-clean discount_src-distclean test
+.PHONY: all discount_ex clean distclean discount_src-clean discount_src-distclean docs docs-clean publish publish-code publish-docs test

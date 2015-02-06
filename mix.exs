@@ -15,16 +15,16 @@ defmodule Discount.Mixfile do
   def project do
     [
       app:          :discount,
-      version:      "0.6.1",
+      version:      "0.7.0",
       elixir:       "~> 1.0",
       compilers:    [:discount, :elixir, :app],
-      deps:         deps(Mix.env),
+      deps:         deps,
       package:      package,
       description:  "Elixir NIF for discount, a Markdown parser",
       name:         "discount",
       source_url:   "https://github.com/asaaki/discount.ex",
       homepage_url: "http://hexdocs.pm/discount",
-      docs:         [readme: true, main: "README"]
+      docs:         docs
     ]
   end
 
@@ -52,11 +52,23 @@ defmodule Discount.Mixfile do
     ]
   end
 
-  defp deps(:dev) do
+  defp docs do
+    {ref, 0} = System.cmd("git", ["rev-parse", "--verify", "--quiet", "HEAD"])
     [
-      { :ex_doc,  "~> 0.6" },
-      { :earmark, "~> 0.1" }
+      source_ref: ref,
+      readme:     "README.md",
+      main:       "README"
     ]
   end
-  defp deps(_),     do: []
+
+
+  defp deps do
+    [
+      { :excoveralls, nil, only: [:dev, :test] },
+      { :poison,      nil, only: [:dev, :test] },
+      { :ex_doc,      nil, only: :docs },
+      { :earmark,     nil, only: :docs },
+      { :inch_ex,     nil, only: :docs }
+    ]
+  end
 end

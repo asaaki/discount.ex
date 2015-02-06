@@ -1,26 +1,28 @@
 # Discount.ex
 
-[![build status](https://travis-ci.org/asaaki/discount.ex.svg?branch=master)](https://travis-ci.org/asaaki/discount.ex)
+[![Hex.pm package version](https://img.shields.io/hexpm/v/discount.svg?style=flat-square)](https://hex.pm/packages/discount)
+[![Hex.pm package license](https://img.shields.io/hexpm/l/discount.svg?style=flat-square)](https://github.com/asaaki/discount.ex/blob/master/LICENSE)
+[![Build Status (master)](https://img.shields.io/travis/asaaki/discount.ex/master.svg?style=flat-square)](https://travis-ci.org/asaaki/discount.ex)
+[![Support via Gratipay](http://img.shields.io/gratipay/asaaki.svg?style=flat-square)](https://gratipay.com/asaaki)
 
 Elixir NIF for **discount**, a Markdown parser ([GH: Orc/discount](https://github.com/Orc/discount)).
 
-- [hex.pm/packages/discount](https://hex.pm/packages/discount)
-- [hexdocs.pm/discount](http://hexdocs.pm/discount/)
+----
+
+**I recommend to use a strongly specified implementation of Markdown called CommonMark!**
+
+An Elixir library exists at [GitHub: asaaki/cmark.ex](https://github.com/asaaki/cmark.ex), the Hex package at <https://hex.pm/packages/cmark>.
+
+More about the reason can be read at <http://commonmark.org/>.
+
+----
 
 
 
 ## Add dependency (with `hex`)
 
 ```elixir
-{ :discount, "~> 0.6.1" }
-```
-
-
-
-## Test
-
-```shell
-make test
+{ :discount, "~> 0.7" }
 ```
 
 
@@ -42,12 +44,10 @@ Discount.to_html "## markdown string", fn (html) ->
 end
 ```
 
-See [test examples](https://github.com/asaaki/discount.ex/blob/0.6.1/test/discount_test.exs) for more detailed usage.
-
 
 
 ## License
 
 [MIT/X11](./LICENSE)
 
-Copyright (c) 2013—2014 Christoph Grabo
+Copyright (c) 2013—2015 Christoph Grabo

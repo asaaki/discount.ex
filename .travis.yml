@@ -1,15 +1,33 @@
+sudo: false
+
 language: erlang
+
 otp_release:
+  - 17.4
+  - 17.3
   - 17.1
-branches:
-  only:
-    - master
+  - 17.0
+
+env:
+  matrix:
+    - CC=clang
+    - CC=gcc
+
 before_install:
-  - sudo apt-get update
-  - sudo apt-get install clang
-  - export CC=clang
-  - wget https://github.com/elixir-lang/elixir/releases/download/v1.0.1/Precompiled.zip
-  - unzip -d elixir Precompiled.zip
+  - wget http://s3.hex.pm/builds/elixir/v1.0.2.zip
+  - unzip -d elixir v1.0.2.zip
+  - $CC --version
+
 before_script:
   - export PATH=`pwd`/elixir/bin:$PATH
+  - mix local.hex --force
+  - mix deps.get
+
 script: "make test"
+
+after_script:
+  - MIX_ENV=docs mix inch.report
+
+after_success:
+  - mix compile
+  - mix coveralls.travis
