@@ -83,12 +83,12 @@ docs-clean:
 
 ### PUBLISH
 
-publish: docs publish-code publish-docs
+publish: publish-code publish-docs
 
-publish-code: all
+publish-code:
 	@mix hex.publish
 
-publish-docs: docs
+publish-docs:
 	@MIX_ENV=docs mix hex.docs
 
 ### TEST
