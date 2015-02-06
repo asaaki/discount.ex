@@ -4,9 +4,10 @@
 *.o
 *.plt
 *.so
-_build/*
-deps/*
-docs/*
-ebin/*
+_build
+deps
+doc
+docs
+ebin
 erl_crash.dump
 priv/*.so.dSYM
