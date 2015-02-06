@@ -23,7 +23,7 @@ before_script:
   - mix local.hex --force
   - mix deps.get
 
-script: "make test"
+script: mix test
 
 after_script:
   - MIX_ENV=docs mix inch.report

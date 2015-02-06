@@ -91,11 +91,16 @@ publish-code: all
 publish-docs: docs
 	@MIX_ENV=docs mix hex.docs
 
-test:
-	MIX_ENV=test mix do clean, deps.get, compile, test
+### TEST
+
+spec: all
+	@mix deps.get
+	@mix test
+
+test: spec
 
 clean: discount_src-clean discount_ex-clean discount_nif-clean docs-clean
 
 distclean: discount_src-distclean discount_ex-clean discount_nif-clean docs-clean
 
-.PHONY: all discount_ex clean distclean discount_src-clean discount_src-distclean docs docs-clean publish publish-code publish-docs test
+.PHONY: all discount_ex clean distclean discount_src-clean discount_src-distclean docs docs-clean publish publish-code publish-docs spec test

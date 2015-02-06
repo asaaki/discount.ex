@@ -14,17 +14,18 @@ defmodule Discount.Mixfile do
 
   def project do
     [
-      app:          :discount,
-      version:      "0.7.0",
-      elixir:       "~> 1.0",
-      compilers:    [:discount, :elixir, :app],
-      deps:         deps,
-      package:      package,
-      description:  "Elixir NIF for discount, a Markdown parser",
-      name:         "discount",
-      source_url:   "https://github.com/asaaki/discount.ex",
-      homepage_url: "http://hexdocs.pm/discount",
-      docs:         docs
+      app:           :discount,
+      version:       "0.7.0",
+      elixir:        "~> 1.0",
+      compilers:     [:discount, :elixir, :app],
+      deps:          deps,
+      package:       package,
+      description:   "Elixir NIF for discount, a Markdown parser",
+      name:          "discount",
+      source_url:    "https://github.com/asaaki/discount.ex",
+      homepage_url:  "http://hexdocs.pm/discount",
+      docs:          &docs/0,
+      test_coverage: [tool: ExCoveralls]
     ]
   end
 
