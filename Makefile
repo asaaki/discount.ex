@@ -1,5 +1,5 @@
 ERLANG_PATH:=$(shell erl -eval 'io:format("~s~n", [lists:concat([code:root_dir(), "/erts-", erlang:system_info(version), "/include"])])' -s init stop -noshell)
-CFLAGS_DISCOUNT=-g -fPIC -O3
+CFLAGS_DISCOUNT=-g -fPIC -O2
 CFLAGS=$(CFLAGS_DISCOUNT) -Idiscount_src
 ERLANG_FLAGS=-I$(ERLANG_PATH)
 CC?=clang
