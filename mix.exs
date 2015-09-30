@@ -65,8 +65,8 @@ defmodule Discount.Mixfile do
 
   defp deps do
     [
-      { :excoveralls, nil, only: [:dev, :test] },
-      { :poison,      nil, only: [:dev, :test] },
+      { :excoveralls, nil, only: :test },
+      { :poison,      nil, only: :test },
       { :ex_doc,      nil, only: :docs },
       { :earmark,     nil, only: :docs },
       { :inch_ex,     nil, only: :docs }
